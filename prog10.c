@@ -1,0 +1,76 @@
+#include<stdio.h>
+#include<GL/glut.h>
+float x;
+void drawcar()
+{
+ glColor3f(1.0,0.0,0.0);
+ glBegin(GL_POLYGON);//rectangle
+ glVertex2f(100.0,150.0);
+ glVertex2f(400.0,150.0);
+ glVertex2f(400.0,250.0);
+ glVertex2f(100.0,250.0);
+ glEnd();
+ glColor3f(1.0,0.0,0.0);
+ glBegin(GL_POLYGON);//trapezium
+ glVertex2f(200.0,250.0);
+ glVertex2f(200.0,325.0);
+ glVertex2f(300.0,325.0);
+ glVertex2f(300.0,250.0);
+ glEnd();
+ glColor3f(1.0,0.0,0.0);
+ glBegin(GL_POLYGON);//rectangle
+ glVertex2f(200.0,250.0);
+ glVertex2f(200.0,325.0);
+ glVertex2f(175.0,250.0);
+ glEnd();
+ glBegin(GL_POLYGON);//rectangle
+ glVertex2f(300.0,250.0);
+ glVertex2f(300.0,325.0);
+ glVertex2f(325.0,250.0);
+ glEnd();
+ glColor3f(0.0,0.0,0.0);
+ glPushMatrix();//Tyre1
+ glTranslatef(150.0,150.0,0.0);
+ glutSolidSphere(30.0,100.0,100.0);
+ glPopMatrix();
+ glColor3f(0.0,0.0,0.0);
+ glPushMatrix();//Tyre2
+ glTranslatef(350.0,150.0,0.0);
+ glutSolidSphere(30.0,100.0,100.0);
+ glPopMatrix();
+}
+void display()
+{
+ glClear(GL_COLOR_BUFFER_BIT);
+ glPushMatrix();
+ glTranslatef(x,0.0,0.0);
+ glScalef(0.5,0.5,1);
+ drawcar();
+ glPopMatrix();
+ glPushMatrix();
+ glTranslatef(x,50.0,0.0);
+ drawcar();
+ glPopMatrix();
+ glFlush();
+}
+void timer(int e)
+{
+ x--;
+ glutPostRedisplay();
+ glutTimerFunc(100,timer,0);
+ }
+int main(int argc, char **argv)
+{
+ glutInit(&argc,argv);
+ glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+ glutInitWindowSize(500,500);
+ glutInitWindowPosition(100,100);
+ glutCreateWindow("Car");
+ glClearColor(1.0,1.0,1.0,0);
+ glMatrixMode(GL_PROJECTION);
+ glLoadIdentity();
+ glOrtho(-500.0,500.0,-500.0,500.0,-450.0,+450.0);
+ glutDisplayFunc(display);
+ timer(0);
+ glutMainLoop();
+}
